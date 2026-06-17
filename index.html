@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог изображений для доработки</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0f1115;
+      --card: #1b1f27;
+      --text: #e8ecf3;
+      --muted: #9aa4b2;
+      --accent: #4ea1ff;
+      --accent-hover: #2b85eb;
+      --border: #2c3442;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #141821;
+        --muted: #556070;
+        --accent: #155eef;
+        --accent-hover: #0047d0;
+        --border: #d7deea;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .steps {
+      margin-top: 16px;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .steps li {
+      margin-bottom: 6px;
+    }
+
+    .status {
+      margin: 14px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .controls {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .select,
+    .icon-btn {
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .select {
+      background: var(--card);
+      color: var(--text);
+      padding: 0 10px;
+      width: 100%;
+    }
+
+    .icon-btn {
+      background: transparent;
+      color: var(--text);
+      padding: 0 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .catalog-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .thumb-wrap {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .thumb-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .card-body {
+      padding: 12px;
+    }
+
+    .title {
+      margin: 0 0 10px;
+      font-size: 14px;
+      word-break: break-word;
+      color: var(--text);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      padding: 7px 10px;
+      text-decoration: none;
+      text-align: center;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn.primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .empty {
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--card);
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>Каталог изображений</h1>
+      <p>
+        Выберите категорию, откройте нужное изображение и скачайте его для доработки.
+      </p>
+      <ol class="steps">
+        <li>Храните файлы в папках формата <strong>images/категория</strong>.</li>
+        <li>Категории можно добавлять и удалять прямо на странице.</li>
+        <li>По умолчанию добавлены категории <strong>Медали</strong> и <strong>Магниты</strong>.</li>
+      </ol>
+      <div class="controls">
+        <select id="categorySelect" class="select" aria-label="Выбор категории"></select>
+        <button id="addCategoryBtn" class="icon-btn" type="button">+ Категория</button>
+        <button id="removeCategoryBtn" class="icon-btn" type="button">Удалить</button>
+      </div>
+      <div id="status" class="status">Загрузка изображений...</div>
+    </section>
+
+    <h2 id="catalogTitle" class="catalog-title">Категория</h2>
+    <section id="gallery" class="grid" aria-live="polite"></section>
+  </main>
+
+  <script>
+    // Привязка к репозиторию GitHub
+    const REPO_OWNER = "ponizov7777-svg";
+    const REPO_NAME = "Images";
+    const BRANCH = "main";
+
+    const IMAGE_ROOT = "images";
+    const STORAGE_KEY = "souvenir-categories-v1";
+    const DEFAULT_CATEGORIES = [
+      { id: "medals", title: "Медали" },
+      { id: "magnets", title: "Магниты" }
+    ];
+
+    const statusEl = document.getElementById("status");
+    const galleryEl = document.getElementById("gallery");
+    const categorySelectEl = document.getElementById("categorySelect");
+    const addCategoryBtn = document.getElementById("addCategoryBtn");
+    const removeCategoryBtn = document.getElementById("removeCategoryBtn");
+    const catalogTitleEl = document.getElementById("catalogTitle");
+    const imageExtensions = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"];
+    let categories = [];
+    let currentCategoryId = "";
+
+    function isImageFile(name) {
+      const lower = name.toLowerCase();
+      return imageExtensions.some((ext) => lower.endsWith(ext));
+    }
+
+    function setStatus(message) {
+      statusEl.textContent = message;
+    }
+
+    function renderEmpty(message) {
+      galleryEl.innerHTML = '<div class="empty">' + message + "</div>";
+    }
+
+    function toSlug(value) {
+      return value
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\p{L}\p{N}_-]/gu, "");
+    }
+
+    function saveCategories() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(categories));
+    }
+
+    function loadCategories() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        categories = [...DEFAULT_CATEGORIES];
+        saveCategories();
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(raw);
+        const isValid = Array.isArray(parsed) && parsed.every((item) =>
+          item && typeof item.id === "string" && typeof item.title === "string"
+        );
+        if (!isValid) {
+          categories = [...DEFAULT_CATEGORIES];
+          saveCategories();
+          return;
+        }
+
+        categories = [...parsed];
+        for (const fallback of DEFAULT_CATEGORIES) {
+          if (!categories.some((c) => c.id === fallback.id)) {
+            categories.push(fallback);
+          }
+        }
+        saveCategories();
+      } catch (_error) {
+        categories = [...DEFAULT_CATEGORIES];
+        saveCategories();
+      }
+    }
+
+    function renderCategoryOptions() {
+      categorySelectEl.innerHTML = "";
+      for (const category of categories) {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.title + " (" + category.id + ")";
+        categorySelectEl.appendChild(option);
+      }
+      categorySelectEl.value = currentCategoryId;
+    }
+
+    function getCurrentCategory() {
+      return categories.find((c) => c.id === currentCategoryId) || categories[0];
+    }
+
+    function createCard(fileName, fileUrl) {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = [
+        '<div class="thumb-wrap">',
+        '<img src="' + fileUrl + '" alt="' + fileName + '" loading="lazy">',
+        "</div>",
+        '<div class="card-body">',
+        '<h2 class="title">' + fileName + "</h2>",
+        '<div class="actions">',
+        '<a class="btn" href="' + fileUrl + '" target="_blank" rel="noopener noreferrer">Открыть</a>',
+        '<a class="btn primary" href="' + fileUrl + '" download="' + fileName + '">Скачать</a>',
+        "</div>",
+        "</div>"
+      ].join("");
+      return card;
+    }
+
+    async function loadImages(category) {
+      if (REPO_OWNER.startsWith("YOUR_") || REPO_NAME.startsWith("YOUR_")) {
+        setStatus("Укажите REPO_OWNER и REPO_NAME в index.html.");
+        renderEmpty("Нужно настроить параметры репозитория в коде.");
+        return;
+      }
+
+      catalogTitleEl.textContent = "Категория: " + category.title;
+
+      const folderPath = IMAGE_ROOT + "/" + category.id;
+      const apiUrl =
+        "https://api.github.com/repos/" +
+        REPO_OWNER +
+        "/" +
+        REPO_NAME +
+        "/contents/" +
+        encodeURIComponent(folderPath) +
+        "?ref=" +
+        encodeURIComponent(BRANCH);
+
+      try {
+        const response = await fetch(apiUrl, {
+          headers: {
+            Accept: "application/vnd.github+json"
+          }
+        });
+
+        if (response.status === 404) {
+          setStatus("Категория пустая: папка в репозитории пока не создана.");
+          renderEmpty("Создайте папку " + folderPath + " и добавьте туда изображения.");
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error("GitHub API error: " + response.status);
+        }
+
+        const entries = await response.json();
+        const images = entries.filter((item) => item.type === "file" && isImageFile(item.name));
+
+        if (images.length === 0) {
+          setStatus("Изображений пока нет.");
+          renderEmpty("Загрузите файлы в папку " + folderPath + ", и они появятся здесь.");
+          return;
+        }
+
+        galleryEl.innerHTML = "";
+        for (const img of images) {
+          const card = createCard(img.name, img.download_url);
+          galleryEl.appendChild(card);
+        }
+        setStatus("Найдено изображений: " + images.length);
+      } catch (error) {
+        setStatus("Не удалось загрузить изображения.");
+        renderEmpty(
+          "Проверьте REPO_OWNER, REPO_NAME, BRANCH и доступность репозитория."
+        );
+        console.error(error);
+      }
+    }
+
+    function switchCategory(nextId) {
+      currentCategoryId = nextId;
+      const category = getCurrentCategory();
+      if (!category) {
+        setStatus("Нет доступных категорий.");
+        renderEmpty("Добавьте хотя бы одну категорию.");
+        return;
+      }
+      renderCategoryOptions();
+      loadImages(category);
+    }
+
+    function addCategory() {
+      const rawTitle = window.prompt("Название категории (например, Брелки):", "");
+      if (!rawTitle) {
+        return;
+      }
+
+      const title = rawTitle.trim();
+      const id = toSlug(title);
+      if (!id) {
+        alert("Не удалось создать ID категории. Используйте буквы/цифры.");
+        return;
+      }
+
+      if (categories.some((c) => c.id === id)) {
+        alert("Категория с таким ID уже существует.");
+        return;
+      }
+
+      categories.push({ id, title });
+      saveCategories();
+      switchCategory(id);
+    }
+
+    function removeCurrentCategory() {
+      if (categories.length === 1) {
+        alert("Нельзя удалить последнюю категорию.");
+        return;
+      }
+      const category = getCurrentCategory();
+      if (!category) {
+        return;
+      }
+
+      const ok = window.confirm('Удалить категорию "' + category.title + '" из каталога?');
+      if (!ok) {
+        return;
+      }
+
+      categories = categories.filter((c) => c.id !== category.id);
+      saveCategories();
+      switchCategory(categories[0].id);
+    }
+
+    categorySelectEl.addEventListener("change", (event) => {
+      switchCategory(event.target.value);
+    });
+    addCategoryBtn.addEventListener("click", addCategory);
+    removeCategoryBtn.addEventListener("click", removeCurrentCategory);
+
+    loadCategories();
+    currentCategoryId = categories[0].id;
+    switchCategory(currentCategoryId);
+  </script>
+</body>
+</html>
