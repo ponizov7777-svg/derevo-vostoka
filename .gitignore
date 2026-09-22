@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+
+_inbox/
+станки/*.crv3d
+*.rar
+_audit.json
+
+.DS_Store
+Thumbs.db

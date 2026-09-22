@@ -1,468 +1,692 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Каталог изображений для доработки</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Лендинг генераций — Генерация сувениров</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      color-scheme: light dark;
-      --bg: #0f1115;
-      --card: #1b1f27;
-      --text: #e8ecf3;
-      --muted: #9aa4b2;
-      --accent: #4ea1ff;
-      --accent-hover: #2b85eb;
-      --border: #2c3442;
+      --bg: #12141a;
+      --bg-elevated: #1a1d26;
+      --bg-hover: #252a35;
+      --border: #2f3543;
+      --text: #e8ebf3;
+      --muted: #98a0b3;
+      --accent: #d7a977;
+      --accent-soft: rgba(215, 169, 119, 0.15);
+      --radius: 14px;
+      --font: "Manrope", system-ui, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+      --sidebar: 320px;
     }
-
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f5f7fb;
-        --card: #ffffff;
-        --text: #141821;
-        --muted: #556070;
-        --accent: #155eef;
-        --accent-hover: #0047d0;
-        --border: #d7deea;
-      }
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
+      min-height: 100vh;
+      font-family: var(--font);
       color: var(--text);
+      background:
+        radial-gradient(1000px 520px at -10% -20%, #2c2834 0%, transparent 60%),
+        radial-gradient(860px 460px at 110% 0%, #1e293a 0%, transparent 52%),
+        var(--bg);
+      display: grid;
+      grid-template-columns: var(--sidebar) 1fr;
+    }
+    button, input, select { font: inherit; color: inherit; }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--border);
+      background: rgba(17, 19, 24, 0.92);
+      backdrop-filter: blur(8px);
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow: auto;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+    .brand p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+    .search {
+      position: relative;
+    }
+    .search::before {
+      content: "⌕";
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+    .search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      padding: 10px 12px 10px 34px;
+      outline: none;
+    }
+    .search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .nav-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 2px 3px 6px;
+    }
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 120px;
+      max-height: 45vh;
+      overflow: auto;
+      padding-right: 3px;
+    }
+    .nav-btn {
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      background: transparent;
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .nav-btn:hover { background: var(--bg-hover); }
+    .nav-btn.active {
+      background: var(--accent-soft);
+      border-color: rgba(215, 169, 119, 0.32);
+      color: var(--accent);
+    }
+    .count {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .preset-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .preset-btn {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg-elevated);
+      color: var(--muted);
+      font-size: 0.74rem;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .preset-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .preset-btn.active {
+      color: var(--accent);
+      border-color: rgba(215, 169, 119, 0.4);
+      background: var(--accent-soft);
+    }
+    .sidebar-foot {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 0.75rem;
       line-height: 1.45;
     }
-
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 24px;
+    .sidebar-foot code {
+      font-family: var(--mono);
+      color: var(--accent);
     }
-
-    .hero {
-      background: var(--card);
+    .sidebar-foot button {
+      width: 100%;
+      margin-bottom: 8px;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
+      border-radius: 10px;
+      padding: 9px 12px;
+      background: var(--bg-elevated);
+      cursor: pointer;
     }
+    .sidebar-foot button:hover { border-color: var(--accent); }
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
+    .main {
+      min-width: 0;
+      padding: 26px 30px 46px;
     }
-
-    p {
-      margin: 0;
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: end;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .toolbar h2 {
+      margin: 0 0 4px;
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+    }
+    .meta {
       color: var(--muted);
+      font-size: 0.88rem;
     }
-
-    .steps {
-      margin-top: 16px;
-      padding-left: 20px;
-      color: var(--muted);
-    }
-
-    .steps li {
-      margin-bottom: 6px;
-    }
-
-    .status {
-      margin: 14px 0 0;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .controls {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: 1fr auto auto;
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
       align-items: center;
     }
-
-    .select,
-    .icon-btn {
-      height: 40px;
+    .filters select {
+      border: 1px solid var(--border);
       border-radius: 10px;
+      padding: 8px 10px;
+      background: var(--bg-elevated);
+    }
+    .controls-row {
+      margin-bottom: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .toggle-btn {
       border: 1px solid var(--border);
-      font-size: 14px;
-    }
-
-    .select {
-      background: var(--card);
-      color: var(--text);
-      padding: 0 10px;
-      width: 100%;
-    }
-
-    .icon-btn {
-      background: transparent;
-      color: var(--text);
-      padding: 0 12px;
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      color: var(--muted);
+      padding: 8px 10px;
       cursor: pointer;
-      white-space: nowrap;
     }
-
-    .icon-btn:hover {
-      border-color: var(--accent);
+    .toggle-btn.active {
+      color: var(--accent);
+      border-color: rgba(215, 169, 119, 0.42);
+      background: var(--accent-soft);
     }
-
-    .catalog-title {
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--card);
+    .panel {
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.02);
       overflow: hidden;
+    }
+    .empty {
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .path, .mono {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+    .badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 0.67rem;
+      font-family: var(--mono);
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      padding: 14px;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-elevated);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
       display: flex;
       flex-direction: column;
+      transition: transform 0.15s ease, border-color 0.15s;
     }
-
-    .thumb-wrap {
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      border-bottom: 1px solid var(--border);
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(215, 169, 119, 0.4);
     }
-
-    .thumb-wrap img {
-      max-width: 100%;
-      max-height: 100%;
+    .thumb {
+      aspect-ratio: 1;
+      background: #0f1117;
+      display: grid;
+      place-items: center;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       display: block;
     }
-
     .card-body {
-      padding: 12px;
+      padding: 10px 11px 12px;
+      display: grid;
+      gap: 6px;
     }
-
-    .title {
-      margin: 0 0 10px;
-      font-size: 14px;
-      word-break: break-word;
-      color: var(--text);
+    .card-title {
+      font-size: 0.84rem;
+      line-height: 1.35;
+      font-weight: 600;
     }
-
-    .actions {
+    .card-foot {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 8px;
-    }
-
-    .btn {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: transparent;
-      color: var(--text);
-      font-size: 13px;
-      padding: 7px 10px;
-      text-decoration: none;
-      text-align: center;
-      flex: 1;
-      cursor: pointer;
-    }
-
-    .btn.primary {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .btn.primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-    }
-
-    .empty {
-      padding: 24px;
-      border: 1px dashed var(--border);
-      border-radius: 12px;
       color: var(--muted);
-      text-align: center;
-      background: var(--card);
+      font-size: 0.72rem;
+      font-family: var(--mono);
+    }
+    .error {
+      margin-bottom: 14px;
+      border: 1px solid rgba(218, 125, 125, 0.35);
+      border-radius: 12px;
+      background: rgba(218, 125, 125, 0.12);
+      color: #f2d2d2;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+    }
+    .error code {
+      font-family: var(--mono);
+      color: #ffd8d8;
+    }
+    @media (max-width: 980px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav { max-height: 280px; }
+      .main { padding: 20px 14px 34px; }
     }
   </style>
 </head>
 <body>
-  <main class="container">
-    <section class="hero">
-      <h1>Каталог изображений</h1>
-      <p>
-        Выберите категорию, откройте нужное изображение и скачайте его для доработки.
-      </p>
-      <ol class="steps">
-        <li>Храните файлы в папках формата <strong>images/категория</strong>.</li>
-        <li>Категории можно добавлять и удалять прямо на странице.</li>
-        <li>По умолчанию добавлены категории <strong>Медали</strong> и <strong>Магниты</strong>.</li>
-      </ol>
-      <div class="controls">
-        <select id="categorySelect" class="select" aria-label="Выбор категории"></select>
-        <button id="addCategoryBtn" class="icon-btn" type="button">+ Категория</button>
-        <button id="removeCategoryBtn" class="icon-btn" type="button">Удалить</button>
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>Генерация сувениров</h1>
+      <p>Рабочая витрина генераций: фильтрация по контексту, технике, изделию и стадии.</p>
+    </div>
+
+    <div class="search">
+      <input id="search" type="search" placeholder="Поиск по названию…" autocomplete="off" />
+    </div>
+    <div>
+      <div class="nav-title">Контекст</div>
+      <nav class="nav" id="contextNav"></nav>
+    </div>
+    <div>
+      <div class="nav-title">Быстрые сценарии</div>
+      <div class="preset-wrap" id="presetNav"></div>
+    </div>
+    <div class="sidebar-foot">
+      <button id="reloadBtn" type="button">Обновить данные</button>
+      <div>
+        После новых файлов:<br />
+        <code>python scripts/build_gallery.py</code>
       </div>
-      <div id="status" class="status">Загрузка изображений...</div>
-    </section>
+    </div>
+  </aside>
 
-    <h2 id="catalogTitle" class="catalog-title">Категория</h2>
-    <section id="gallery" class="grid" aria-live="polite"></section>
+  <main class="main">
+    <div id="dataError" class="error" hidden></div>
+    <div class="toolbar">
+      <div>
+        <h2 id="heading">Все направления</h2>
+        <div class="meta" id="stats">—</div>
+      </div>
+      <div class="filters">
+        <select id="categoryFilter">
+          <option value="all">Все изделия</option>
+        </select>
+        <select id="stageFilter">
+          <option value="all">Все стадии</option>
+        </select>
+        <select id="techFilter">
+          <option value="all">Все техники</option>
+        </select>
+        <select id="sort">
+          <option value="newest">Сначала новые</option>
+          <option value="name">По имени А-Я</option>
+          <option value="size">По размеру</option>
+        </select>
+      </div>
+    </div>
+    <div class="controls-row">
+      <button id="unresolvedBtn" class="toggle-btn" type="button">Только неразобранное</button>
+    </div>
+
+    <section class="panel" id="contentPanel"></section>
   </main>
-
+  <script src="gallery-data.js"></script>
   <script>
-    // Привязка к репозиторию GitHub
-    const REPO_OWNER = "ponizov7777-svg";
-    const REPO_NAME = "Images";
-    const BRANCH = "main";
+    const state = {
+      context: "all",
+      tech: "all",
+      product: "all",
+      stage: "all",
+      unresolvedOnly: false,
+      query: "",
+      sort: "newest",
+      activePreset: "",
+    };
 
-    const IMAGE_ROOT = "images";
-    const STORAGE_KEY = "souvenir-categories-v1";
-    const DEFAULT_CATEGORIES = [
-      { id: "medals", title: "Медали" },
-      { id: "magnets", title: "Магниты" }
-    ];
+    const els = {
+      contextNav: document.getElementById("contextNav"),
+      presetNav: document.getElementById("presetNav"),
+      panel: document.getElementById("contentPanel"),
+      heading: document.getElementById("heading"),
+      stats: document.getElementById("stats"),
+      search: document.getElementById("search"),
+      productFilter: document.getElementById("categoryFilter"),
+      stageFilter: document.getElementById("stageFilter"),
+      techFilter: document.getElementById("techFilter"),
+      sort: document.getElementById("sort"),
+      unresolvedBtn: document.getElementById("unresolvedBtn"),
+      reloadBtn: document.getElementById("reloadBtn"),
+      dataError: document.getElementById("dataError"),
+    };
 
-    const statusEl = document.getElementById("status");
-    const galleryEl = document.getElementById("gallery");
-    const categorySelectEl = document.getElementById("categorySelect");
-    const addCategoryBtn = document.getElementById("addCategoryBtn");
-    const removeCategoryBtn = document.getElementById("removeCategoryBtn");
-    const catalogTitleEl = document.getElementById("catalogTitle");
-    const imageExtensions = [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"];
-    let categories = [];
-    let currentCategoryId = "";
-
-    function isImageFile(name) {
-      const lower = name.toLowerCase();
-      return imageExtensions.some((ext) => lower.endsWith(ext));
+    function formatBytes(n) {
+      if (n < 1024) return n + " B";
+      if (n < 1024 * 1024) return Math.round(n / 1024) + " KB";
+      return (n / (1024 * 1024)).toFixed(1) + " MB";
+    }
+    function formatDate(ts) {
+      return new Date(ts * 1000).toLocaleString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
     }
 
-    function setStatus(message) {
-      statusEl.textContent = message;
+    function getGalleryData() {
+      return window.GALLERY_DATA || null;
     }
 
-    function renderEmpty(message) {
-      galleryEl.innerHTML = '<div class="empty">' + message + "</div>";
+    async function reloadData() {
+      const bust = "?t=" + Date.now();
+      await new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = "gallery-data.js" + bust;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.body.appendChild(s);
+      });
+      render();
     }
 
-    function toSlug(value) {
-      return value
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^\p{L}\p{N}_-]/gu, "");
+    function showError() {
+      els.dataError.hidden = false;
+      els.dataError.innerHTML =
+        "Данные не найдены. Выполните <code>python scripts/build_gallery.py</code>, затем обновите страницу.";
+    }
+    function hideError() {
+      els.dataError.hidden = true;
+      els.dataError.textContent = "";
     }
 
-    function saveCategories() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(categories));
-    }
-
-    function loadCategories() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        categories = [...DEFAULT_CATEGORIES];
-        saveCategories();
-        return;
+    function makeOptions(items, key, labelKey) {
+      const counts = new Map();
+      for (const item of items) {
+        const id = item[key];
+        if (!counts.has(id)) {
+          counts.set(id, { id, label: item[labelKey], count: 0 });
+        }
+        counts.get(id).count += 1;
       }
+      return Array.from(counts.values()).sort((a, b) => a.label.localeCompare(b.label, "ru"));
+    }
 
-      try {
-        const parsed = JSON.parse(raw);
-        const isValid = Array.isArray(parsed) && parsed.every((item) =>
-          item && typeof item.id === "string" && typeof item.title === "string"
+    function setSelectOptions(select, options, allLabel, value) {
+      const opts = [{ id: "all", label: allLabel, count: null }, ...options];
+      select.innerHTML = opts.map((opt) => (
+        `<option value="${escapeHtml(opt.id)}">${escapeHtml(opt.count == null ? opt.label : `${opt.label} (${opt.count})`)}</option>`
+      )).join("");
+      if (!opts.some((opt) => opt.id === value)) return "all";
+      return value;
+    }
+
+    function itemsForContext(items) {
+      return state.context === "all" ? items : items.filter((item) => item.context === state.context);
+    }
+
+    function itemsForContextTech(items) {
+      const scoped = itemsForContext(items);
+      return state.tech === "all" ? scoped : scoped.filter((item) => item.tech === state.tech);
+    }
+
+    function itemsForContextTechProduct(items) {
+      const scoped = itemsForContextTech(items);
+      return state.product === "all" ? scoped : scoped.filter((item) => item.product === state.product);
+    }
+
+    function renderContextNav(data) {
+      const options = data.facets && data.facets.context ? data.facets.context : [];
+      const allCount = data.total || 0;
+      const list = [{ id: "all", label: "Все контексты", count: allCount }, ...options];
+      els.contextNav.innerHTML = list.map((item) => `
+        <button class="nav-btn ${state.context === item.id ? "active" : ""}" type="button" data-context="${escapeHtml(item.id)}">
+          <span>${escapeHtml(item.label)}</span>
+          <span class="count">${item.count}</span>
+        </button>
+      `).join("");
+    }
+
+    function renderPresets(data) {
+      const presets = (data.facets && data.facets.presets) || [];
+      els.presetNav.innerHTML = presets.map((preset) => {
+        const isActive =
+          state.context === preset.context &&
+          state.tech === preset.tech &&
+          state.product === preset.product &&
+          state.stage === preset.stage &&
+          state.unresolvedOnly === !!preset.unresolvedOnly;
+        return `
+          <button class="preset-btn ${isActive ? "active" : ""}" type="button" data-preset="${escapeHtml(preset.id)}">
+            ${escapeHtml(preset.label)}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function syncFacetFilters(data) {
+      const items = data.items || [];
+      const contextScoped = itemsForContext(items);
+      const techOptions = makeOptions(contextScoped, "tech", "techLabel");
+      state.tech = setSelectOptions(els.techFilter, techOptions, "Все техники", state.tech);
+      els.techFilter.value = state.tech;
+
+      const techScoped = itemsForContextTech(items);
+      const productOptions = makeOptions(techScoped, "product", "productLabel");
+      state.product = setSelectOptions(els.productFilter, productOptions, "Все изделия", state.product);
+      els.productFilter.value = state.product;
+
+      const productScoped = itemsForContextTechProduct(items);
+      const stageOptions = makeOptions(productScoped, "stage", "stageLabel");
+      state.stage = setSelectOptions(els.stageFilter, stageOptions, "Все стадии", state.stage);
+      els.stageFilter.value = state.stage;
+    }
+
+    function filteredGallery(data) {
+      const q = state.query.trim().toLowerCase();
+      let list = data.items.slice();
+      if (state.context !== "all") list = list.filter((item) => item.context === state.context);
+      if (state.tech !== "all") list = list.filter((item) => item.tech === state.tech);
+      if (state.product !== "all") list = list.filter((item) => item.product === state.product);
+      if (state.stage !== "all") list = list.filter((item) => item.stage === state.stage);
+      if (state.unresolvedOnly) list = list.filter((item) => item.unresolved);
+      if (q) {
+        list = list.filter((item) =>
+          item.title.toLowerCase().includes(q) ||
+          item.name.toLowerCase().includes(q) ||
+          item.src.toLowerCase().includes(q)
         );
-        if (!isValid) {
-          categories = [...DEFAULT_CATEGORIES];
-          saveCategories();
-          return;
-        }
-
-        categories = [...parsed];
-        for (const fallback of DEFAULT_CATEGORIES) {
-          if (!categories.some((c) => c.id === fallback.id)) {
-            categories.push(fallback);
-          }
-        }
-        saveCategories();
-      } catch (_error) {
-        categories = [...DEFAULT_CATEGORIES];
-        saveCategories();
       }
+      if (state.sort === "name") list.sort((a, b) => a.name.localeCompare(b.name, "ru"));
+      else if (state.sort === "size") list.sort((a, b) => b.size - a.size);
+      else list.sort((a, b) => b.mtime - a.mtime);
+      return list;
     }
 
-    function renderCategoryOptions() {
-      categorySelectEl.innerHTML = "";
-      for (const category of categories) {
-        const option = document.createElement("option");
-        option.value = category.id;
-        option.textContent = category.title + " (" + category.id + ")";
-        categorySelectEl.appendChild(option);
-      }
-      categorySelectEl.value = currentCategoryId;
-    }
-
-    function getCurrentCategory() {
-      return categories.find((c) => c.id === currentCategoryId) || categories[0];
-    }
-
-    function createCard(fileName, fileUrl) {
-      const card = document.createElement("article");
-      card.className = "card";
-      card.innerHTML = [
-        '<div class="thumb-wrap">',
-        '<img src="' + fileUrl + '" alt="' + fileName + '" loading="lazy">',
-        "</div>",
-        '<div class="card-body">',
-        '<h2 class="title">' + fileName + "</h2>",
-        '<div class="actions">',
-        '<a class="btn" href="' + fileUrl + '" target="_blank" rel="noopener noreferrer">Открыть</a>',
-        '<a class="btn primary" href="' + fileUrl + '" download="' + fileName + '">Скачать</a>',
-        "</div>",
-        "</div>"
-      ].join("");
-      return card;
-    }
-
-    async function loadImages(category) {
-      if (REPO_OWNER.startsWith("YOUR_") || REPO_NAME.startsWith("YOUR_")) {
-        setStatus("Укажите REPO_OWNER и REPO_NAME в index.html.");
-        renderEmpty("Нужно настроить параметры репозитория в коде.");
+    function renderGalleryGrid(items) {
+      if (!items.length) {
+        els.panel.innerHTML = `<div class="empty">Нет изображений в выбранном наборе фильтров.</div>`;
         return;
       }
+      els.panel.innerHTML = `
+        <div class="gallery-grid">
+          ${items.map((item) => `
+            <a class="card" href="${escapeHtml(item.src)}" target="_blank" rel="noopener">
+              <div class="thumb"><img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" loading="lazy" /></div>
+              <div class="card-body">
+                <div class="card-title">${escapeHtml(item.title)}</div>
+                <div class="path">${escapeHtml(item.categoryLabel)}</div>
+                <div class="card-foot">
+                  <span>${formatBytes(item.size)}</span>
+                  <span>${escapeHtml(item.stageLabel)}</span>
+                </div>
+              </div>
+            </a>
+          `).join("")}
+        </div>
+      `;
+    }
 
-      catalogTitleEl.textContent = "Категория: " + category.title;
+    function clearPresetIfManual() {
+      state.activePreset = "";
+    }
 
-      const folderPath = IMAGE_ROOT + "/" + category.id;
-      const apiUrl =
-        "https://api.github.com/repos/" +
-        REPO_OWNER +
-        "/" +
-        REPO_NAME +
-        "/contents/" +
-        encodeURIComponent(folderPath) +
-        "?ref=" +
-        encodeURIComponent(BRANCH);
+    function applyPreset(data, presetId) {
+      const presets = (data.facets && data.facets.presets) || [];
+      const preset = presets.find((item) => item.id === presetId);
+      if (!preset) return;
+      state.context = preset.context;
+      state.tech = preset.tech;
+      state.product = preset.product;
+      state.stage = preset.stage;
+      state.unresolvedOnly = !!preset.unresolvedOnly;
+      state.activePreset = preset.id;
+    }
 
-      try {
-        const response = await fetch(apiUrl, {
-          headers: {
-            Accept: "application/vnd.github+json"
-          }
+    function render() {
+      const galleryData = getGalleryData();
+      if (!galleryData || !Array.isArray(galleryData.items)) {
+        showError();
+        return;
+      }
+      hideError();
+
+      renderContextNav(galleryData);
+      syncFacetFilters(galleryData);
+      renderPresets(galleryData);
+
+      const items = filteredGallery(galleryData);
+      const contextLabel = state.context === "all"
+        ? "Все контексты"
+        : (galleryData.facets.context.find((item) => item.id === state.context)?.label || "Контекст");
+      els.heading.textContent = contextLabel;
+      const unresolvedCount = galleryData.unresolved ? galleryData.unresolved.count : 0;
+      els.stats.textContent = `Показано ${items.length} из ${galleryData.total} изображений · неразобранное: ${unresolvedCount}`;
+      els.unresolvedBtn.classList.toggle("active", state.unresolvedOnly);
+      renderGalleryGrid(items);
+
+      els.contextNav.querySelectorAll("[data-context]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.context = button.dataset.context;
+          state.tech = "all";
+          state.product = "all";
+          state.stage = "all";
+          clearPresetIfManual();
+          render();
         });
-
-        if (response.status === 404) {
-          setStatus("Категория пустая: папка в репозитории пока не создана.");
-          renderEmpty("Создайте папку " + folderPath + " и добавьте туда изображения.");
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error("GitHub API error: " + response.status);
-        }
-
-        const entries = await response.json();
-        const images = entries.filter((item) => item.type === "file" && isImageFile(item.name));
-
-        if (images.length === 0) {
-          setStatus("Изображений пока нет.");
-          renderEmpty("Загрузите файлы в папку " + folderPath + ", и они появятся здесь.");
-          return;
-        }
-
-        galleryEl.innerHTML = "";
-        for (const img of images) {
-          const card = createCard(img.name, img.download_url);
-          galleryEl.appendChild(card);
-        }
-        setStatus("Найдено изображений: " + images.length);
-      } catch (error) {
-        setStatus("Не удалось загрузить изображения.");
-        renderEmpty(
-          "Проверьте REPO_OWNER, REPO_NAME, BRANCH и доступность репозитория."
-        );
-        console.error(error);
-      }
+      });
+      els.presetNav.querySelectorAll("[data-preset]").forEach((button) => {
+        button.addEventListener("click", () => {
+          applyPreset(galleryData, button.dataset.preset);
+          render();
+        });
+      });
     }
 
-    function switchCategory(nextId) {
-      currentCategoryId = nextId;
-      const category = getCurrentCategory();
-      if (!category) {
-        setStatus("Нет доступных категорий.");
-        renderEmpty("Добавьте хотя бы одну категорию.");
-        return;
-      }
-      renderCategoryOptions();
-      loadImages(category);
-    }
-
-    function addCategory() {
-      const rawTitle = window.prompt("Название категории (например, Брелки):", "");
-      if (!rawTitle) {
-        return;
-      }
-
-      const title = rawTitle.trim();
-      const id = toSlug(title);
-      if (!id) {
-        alert("Не удалось создать ID категории. Используйте буквы/цифры.");
-        return;
-      }
-
-      if (categories.some((c) => c.id === id)) {
-        alert("Категория с таким ID уже существует.");
-        return;
-      }
-
-      categories.push({ id, title });
-      saveCategories();
-      switchCategory(id);
-    }
-
-    function removeCurrentCategory() {
-      if (categories.length === 1) {
-        alert("Нельзя удалить последнюю категорию.");
-        return;
-      }
-      const category = getCurrentCategory();
-      if (!category) {
-        return;
-      }
-
-      const ok = window.confirm('Удалить категорию "' + category.title + '" из каталога?');
-      if (!ok) {
-        return;
-      }
-
-      categories = categories.filter((c) => c.id !== category.id);
-      saveCategories();
-      switchCategory(categories[0].id);
-    }
-
-    categorySelectEl.addEventListener("change", (event) => {
-      switchCategory(event.target.value);
+    els.search.addEventListener("input", () => {
+      state.query = els.search.value;
+      clearPresetIfManual();
+      render();
     });
-    addCategoryBtn.addEventListener("click", addCategory);
-    removeCategoryBtn.addEventListener("click", removeCurrentCategory);
+    els.techFilter.addEventListener("change", () => {
+      state.tech = els.techFilter.value;
+      state.product = "all";
+      state.stage = "all";
+      clearPresetIfManual();
+      render();
+    });
+    els.productFilter.addEventListener("change", () => {
+      state.product = els.productFilter.value;
+      state.stage = "all";
+      clearPresetIfManual();
+      render();
+    });
+    els.stageFilter.addEventListener("change", () => {
+      state.stage = els.stageFilter.value;
+      clearPresetIfManual();
+      render();
+    });
+    els.unresolvedBtn.addEventListener("click", () => {
+      state.unresolvedOnly = !state.unresolvedOnly;
+      clearPresetIfManual();
+      render();
+    });
+    els.sort.addEventListener("change", () => {
+      state.sort = els.sort.value;
+      clearPresetIfManual();
+      render();
+    });
+    els.reloadBtn.addEventListener("click", () => {
+      reloadData().catch(showError);
+    });
 
-    loadCategories();
-    currentCategoryId = categories[0].id;
-    switchCategory(currentCategoryId);
+    render();
   </script>
 </body>
 </html>

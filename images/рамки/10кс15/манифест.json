@@ -1,0 +1,130 @@
+{
+  "params": {
+    "photo_w": 100.0,
+    "photo_h": 150.0,
+    "t": 3.0,
+    "kerf": 0.1,
+    "photo_clear": 1.0,
+    "overlap": 2.5,
+    "border": 28.0,
+    "spacer_w": 12.0,
+    "ornament_extra": 28.0,
+    "tab_len": 14.0,
+    "leg_tab_w": 12.0,
+    "brace_tab_w": 12.0,
+    "brace_hook_h": 14.0,
+    "brace_span": 48.0,
+    "stand_height": 100.0,
+    "stand_base_w": 58.0,
+    "stand_slot_from_bottom": 30.0,
+    "keyhole_stem_h": 10.0,
+    "keyhole_head_r": 3.5,
+    "keyhole_stem_w": 2.2,
+    "finger_notch_r": 12.0,
+    "stroke_cut": 0.1,
+    "slot_w": 2.9,
+    "front_window_w": 95.0,
+    "front_window_h": 145.0,
+    "pocket_w": 102.0,
+    "pocket_h": 152.0,
+    "mask_window_w": 102.0,
+    "mask_window_h": 152.0,
+    "core_w": 158.0,
+    "core_h": 208.0,
+    "outer_w": 214.0,
+    "outer_h": 282.0
+  },
+  "parts": [
+    {
+      "name": "front",
+      "file": "лазер/front.svg"
+    },
+    {
+      "name": "mask",
+      "file": "лазер/mask.svg"
+    },
+    {
+      "name": "spacer_left",
+      "file": "лазер/spacer_left.svg"
+    },
+    {
+      "name": "spacer_right",
+      "file": "лазер/spacer_right.svg"
+    },
+    {
+      "name": "spacer_bottom",
+      "file": "лазер/spacer_bottom.svg"
+    },
+    {
+      "name": "back",
+      "file": "лазер/back.svg"
+    },
+    {
+      "name": "stand_leg",
+      "file": "лазер/stand_leg.svg"
+    },
+    {
+      "name": "brace",
+      "file": "лазер/brace.svg"
+    }
+  ],
+  "nested": "лазер/лист_раскладка.svg",
+  "nest_layout": [
+    {
+      "name": "front",
+      "x": 4.0,
+      "y": 4.0,
+      "w": 212.62528935185182,
+      "h": 286.21600000000007
+    },
+    {
+      "name": "mask",
+      "x": 4.0,
+      "y": 294.21600000000007,
+      "w": 212.62528935185182,
+      "h": 286.21600000000007
+    },
+    {
+      "name": "spacer_left",
+      "x": 220.62528935185182,
+      "y": 294.21600000000007,
+      "w": 12.0,
+      "h": 164.0
+    },
+    {
+      "name": "spacer_right",
+      "x": 236.62528935185182,
+      "y": 294.21600000000007,
+      "w": 12.0,
+      "h": 164.0
+    },
+    {
+      "name": "spacer_bottom",
+      "x": 252.62528935185182,
+      "y": 294.21600000000007,
+      "w": 102.0,
+      "h": 12.0
+    },
+    {
+      "name": "back",
+      "x": 4.0,
+      "y": 584.4320000000001,
+      "w": 212.62528935185182,
+      "h": 286.21600000000007
+    },
+    {
+      "name": "stand_leg",
+      "x": 220.62528935185182,
+      "y": 584.4320000000001,
+      "w": 58.0,
+      "h": 106.0
+    },
+    {
+      "name": "brace",
+      "x": 282.62528935185185,
+      "y": 584.4320000000001,
+      "w": 48.0,
+      "h": 50.0
+    }
+  ]
+}
