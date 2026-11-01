@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Дерево Востока — каталог деревянных сувениров</title>
+  <meta name="description" content="Дерево Востока — производство сувениров из дерева: шкатулки, подносы, часы, брелоки, магниты, таблички, кулоны и изделия под заказ с лазерной гравировкой." />
+  <style>
+    :root {
+      --cream: #faf6ee;
+      --cream-2: #f3ebdd;
+      --paper: #fffdf8;
+      --wood: #8a5a2b;
+      --wood-dark: #5b3a1b;
+      --wood-light: #c69a68;
+      --ink: #35251a;
+      --ink-soft: #6d5949;
+      --green: #2f5233;
+      --green-dark: #24401f;
+      --line: #e2d5bf;
+      --radius: 12px;
+      --shadow: 0 2px 10px rgba(90, 62, 33, 0.08);
+      --wrap: 1240px;
+      --font: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+
+    .wrap {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---------- Шапка ---------- */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 24px;
+      max-width: var(--wrap);
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: none;
+    }
+
+    .logo__mark {
+      width: 48px;
+      height: 48px;
+      flex: none;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 4px rgba(60, 35, 15, .25);
+    }
+
+    .logo__text {
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 1.1;
+      color: var(--wood-dark);
+      letter-spacing: 0.2px;
+    }
+
+    .search {
+      flex: 1 1 320px;
+      max-width: 380px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .search input {
+      flex: 1;
+      border: 0;
+      background: none;
+      outline: none;
+      min-width: 0;
+    }
+
+    .search input::placeholder { color: #a5927e; }
+
+    .nav {
+      display: flex;
+      gap: 22px;
+      margin-left: auto;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+
+    .nav a:hover { color: var(--wood); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+      white-space: nowrap;
+    }
+
+    .btn--primary { background: var(--green); color: #fff; }
+    .btn--primary:hover { background: var(--green-dark); }
+
+    .btn--ghost {
+      background: var(--paper);
+      border-color: var(--line);
+      color: var(--ink);
+    }
+    .btn--ghost:hover { border-color: var(--wood-light); }
+
+    .btn--small { padding: 9px 16px; font-size: 14px; }
+    .btn--block { width: 100%; }
+
+    .burger {
+      display: none;
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    /* ---------- Баннер: полноширинное изображение ---------- */
+    .hero {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      line-height: 0;
+      background: #3a220f;
+    }
+
+    .hero__img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ---------- Секции ---------- */
+    .section { padding: 56px 0; }
+    .section--paper { background: var(--paper); border-block: 1px solid var(--line); }
+
+    .section__title {
+      margin: 0 0 6px;
+      font-size: 28px;
+      color: var(--wood-dark);
+    }
+
+    .section__lead {
+      margin: 0 0 28px;
+      color: var(--ink-soft);
+      max-width: 660px;
+    }
+
+    /* ---------- Каталог ---------- */
+    .catalog {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .filters {
+      position: sticky;
+      top: 88px;
+      padding: 22px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .filters h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      color: var(--wood-dark);
+    }
+
+    .filters__group + .filters__group {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .filter-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .filter-list button {
+      width: 100%;
+      text-align: left;
+      padding: 7px 10px;
+      background: none;
+      border: 0;
+      border-radius: 7px;
+      cursor: pointer;
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+
+    .filter-list button:hover { background: var(--cream-2); }
+
+    .filter-list button[aria-pressed="true"] {
+      background: var(--cream-2);
+      color: var(--wood-dark);
+      font-weight: 600;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--ink-soft);
+      cursor: pointer;
+    }
+
+    .check input { accent-color: var(--green); width: 16px; height: 16px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .card[hidden] {
+      display: none !important;
+    }
+
+    .card:hover { transform: translateY(-3px); border-color: var(--wood-light); }
+
+    /* Заглушка вместо фото товара */
+    .ph {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      display: grid;
+      place-items: center;
+      gap: 6px;
+      background:
+        repeating-linear-gradient(115deg,
+          rgba(198, 154, 104, .16) 0 9px,
+          rgba(198, 154, 104, .05) 9px 20px),
+        var(--cream-2);
+      border-bottom: 1px solid var(--line);
+      color: var(--wood);
+      overflow: hidden;
+    }
+
+    .ph--photo {
+      aspect-ratio: 1 / 1;
+      padding: 10px;
+      background: #f4ebe0;
+    }
+
+    .ph__img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .ph__icon { width: 64px; height: 64px; opacity: .8; }
+
+    .ph__label {
+      font-size: 12px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      color: #9c8467;
+    }
+
+    .card__body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 16px;
+      flex: 1;
+    }
+
+    .card__title { margin: 0; font-size: 17px; color: var(--ink); }
+    .card__desc { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+    .card__price {
+      margin-top: auto;
+      padding-top: 8px;
+      font-weight: 600;
+      color: var(--wood-dark);
+    }
+
+    .tag {
+      align-self: flex-start;
+      padding: 3px 9px;
+      font-size: 12px;
+      border-radius: 999px;
+      background: rgba(47, 82, 51, .1);
+      color: var(--green);
+    }
+
+    /* ---------- Преимущества ---------- */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .feature svg { width: 30px; height: 30px; flex: none; color: var(--wood); }
+    .feature h4 { margin: 0 0 4px; font-size: 16px; }
+    .feature p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+    /* ---------- О нас / доставка ---------- */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about__text p { color: var(--ink-soft); }
+
+    .info-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .info-list li {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .info-list strong { display: block; margin-bottom: 2px; }
+    .info-list span { font-size: 14px; color: var(--ink-soft); }
+    .info-list svg { width: 24px; height: 24px; flex: none; color: var(--wood); }
+
+    /* ---------- B2B ---------- */
+    .b2b {
+      padding: 36px;
+      border-radius: 16px;
+      color: var(--cream);
+      background: linear-gradient(105deg, var(--green-dark), #3a6140);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .b2b h2 { margin: 0 0 10px; font-size: 26px; }
+    .b2b p { margin: 0 0 18px; color: rgba(250, 246, 238, .85); }
+
+    .b2b__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .b2b .btn--primary { background: var(--cream); color: var(--green-dark); }
+    .b2b .btn--primary:hover { background: #fff; }
+
+    .b2b .btn--ghost {
+      background: transparent;
+      border-color: rgba(250, 246, 238, .5);
+      color: var(--cream);
+    }
+    .b2b .btn--ghost:hover { border-color: var(--cream); }
+
+    .b2b__stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .b2b__stats div {
+      padding: 14px;
+      background: rgba(255, 255, 255, .1);
+      border-radius: var(--radius);
+    }
+
+    .b2b__stats b { display: block; font-size: 22px; }
+    .b2b__stats span { font-size: 13px; color: rgba(250, 246, 238, .8); }
+
+    /* ---------- Форма ---------- */
+    .form {
+      display: grid;
+      gap: 14px;
+      padding: 26px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .field { display: grid; gap: 6px; }
+    .field label { font-size: 14px; color: var(--ink-soft); }
+
+    .field input,
+    .field textarea,
+    .field select {
+      padding: 11px 13px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus { border-color: var(--wood-light); }
+
+    .field textarea { resize: vertical; min-height: 96px; }
+
+    .form__note { margin: 0; font-size: 13px; color: var(--ink-soft); }
+
+    .messengers { display: grid; gap: 12px; align-content: start; }
+
+    .messenger {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: border-color .15s ease;
+    }
+
+    .messenger:hover { border-color: var(--wood-light); }
+    .messenger svg { width: 26px; height: 26px; flex: none; color: var(--wood); }
+    .messenger strong { display: block; font-size: 15px; }
+    .messenger span { font-size: 13px; color: var(--ink-soft); }
+
+    /* ---------- Подвал ---------- */
+    .footer {
+      padding: 40px 0 28px;
+      background: #3b2717;
+      color: #e8dcc9;
+    }
+
+    .footer__cols {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 32px;
+    }
+
+    .footer h4 { margin: 0 0 12px; font-size: 15px; color: #fff; }
+    .footer p, .footer li { color: #c9b79e; font-size: 14px; }
+    .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .footer a:hover { color: #fff; }
+
+    .footer__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .footer__logo .logo__text { color: #fff; }
+
+    .footer__bottom {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #ab9a83;
+    }
+
+    @media (max-width: 960px) {
+      .catalog { grid-template-columns: 1fr; }
+      .filters { position: static; }
+      .split, .b2b, .footer__cols { grid-template-columns: 1fr; }
+      .nav { display: none; }
+      .burger { display: block; margin-left: auto; }
+      .search { order: 3; max-width: none; flex-basis: 100%; }
+    }
+
+    @media (max-width: 560px) {
+      .header__inner { flex-wrap: wrap; gap: 12px; }
+      .header .btn { display: none; }
+      .section { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Спрайт иконок: используется в заглушках, преимуществах и контактах -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-rings" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="24" cy="24" r="20" /><circle cx="24" cy="24" r="14" />
+        <circle cx="24" cy="24" r="8" /><circle cx="24" cy="24" r="2.5" />
+      </symbol>
+      <symbol id="i-box" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 18h36v22H6z" /><path d="M6 18l4-8h28l4 8" /><path d="M20 26h8" />
+      </symbol>
+      <symbol id="i-tray" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <ellipse cx="24" cy="24" rx="20" ry="13" /><ellipse cx="16" cy="24" rx="6" ry="7" />
+        <ellipse cx="31" cy="20" rx="5" ry="4" /><ellipse cx="31" cy="29" rx="5" ry="4" />
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="24" cy="24" r="19" /><path d="M24 12v12l9 6" />
+      </symbol>
+      <symbol id="i-keychain" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="24" cy="12" r="6" /><path d="M18 22h12l3 20H15z" /><path d="M24 28v8" />
+      </symbol>
+      <symbol id="i-blank" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 8h28v32H10z" /><path d="M16 16h16M16 24h16M16 32h10" />
+      </symbol>
+      <symbol id="i-magnet" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 8v16a12 12 0 0 0 24 0V8" /><path d="M12 20h10M26 20h10" />
+      </symbol>
+      <symbol id="i-plaque" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 12h36v24H6z" /><path d="M14 20h20M14 28h14" />
+      </symbol>
+      <symbol id="i-pendant" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 6c4 6 16 6 20 0" /><circle cx="24" cy="28" r="14" /><circle cx="24" cy="28" r="6" />
+      </symbol>
+      <symbol id="i-custom" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M30 6l12 12-20 20-12 4 4-12z" /><path d="M24 12l12 12" />
+      </symbol>
+      <symbol id="i-tree" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M24 4l10 14H14zM24 14l12 16H12zM24 26l14 16H10z" /><path d="M24 42v4" />
+      </symbol>
+      <symbol id="i-laser" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M24 4v14" /><path d="M14 22h20l-4 8H18z" /><path d="M24 30v14" /><path d="M16 44h16" />
+      </symbol>
+      <symbol id="i-truck" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 12h22v20H4zM26 18h10l6 7v7H26z" /><circle cx="13" cy="36" r="4" /><circle cx="33" cy="36" r="4" />
+      </symbol>
+      <symbol id="i-card" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 10h40v28H4z" /><path d="M4 20h40M10 30h10" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 6h10l4 10-6 4a20 20 0 0 0 10 10l4-6 10 4v10c-16 0-32-16-32-32z" />
+      </symbol>
+      <symbol id="i-chat" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 10h36v24H20l-10 8V34H6z" /><path d="M14 18h20M14 26h12" />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 10h40v28H4z" /><path d="M4 12l20 14 20-14" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5L21 21" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="header">
+    <div class="header__inner">
+      <a class="logo" href="#top">
+        <img class="logo__mark" src="assets/логотип.png" alt="" width="48" height="48" />
+        <span class="logo__text">Дерево<br />Востока</span>
+      </a>
+
+      <label class="search">
+        <svg width="18" height="18" aria-hidden="true"><use href="#i-search" /></svg>
+        <input type="search" placeholder="Найти сувенир" aria-label="Поиск по каталогу" />
+      </label>
+
+      <nav class="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#about">О нас</a>
+        <a href="#delivery">Доставка</a>
+        <a href="#b2b">Для бизнеса</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+      <a class="btn btn--primary" href="#order">Заказать</a>
+      <button class="burger" type="button" aria-label="Меню">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="Баннер каталога">
+      <h1 class="visually-hidden">Каталог деревянных сувениров</h1>
+      <p class="visually-hidden">Шкатулки, часы, подносы, брелоки и заготовки</p>
+      <img
+        class="hero__img"
+        src="assets/баннер_каталог.png"
+        alt="Каталог деревянных сувениров — шкатулки, часы, подносы, брелоки и заготовки"
+        width="1280"
+        height="232"
+      />
+    </section>
+
+    <section class="section" id="catalog">
+      <div class="wrap">
+        <h2 class="section__title">Наша продукция</h2>
+        <p class="section__lead">
+          Делаем изделия из натурального дерева с лазерной гравировкой и резьбой на ЧПУ.
+          Любую позицию можно повторить с вашим рисунком, надписью или логотипом.
+        </p>
+
+        <div class="catalog">
+          <aside class="filters">
+            <div class="filters__group">
+              <h3>Категории</h3>
+              <ul class="filter-list" id="filters">
+                <li><button type="button" data-filter="all" aria-pressed="true">Все изделия</button></li>
+                <li><button type="button" data-filter="boxes" aria-pressed="false">Шкатулки</button></li>
+                <li><button type="button" data-filter="trays" aria-pressed="false">Подносы</button></li>
+                <li><button type="button" data-filter="clocks" aria-pressed="false">Часы</button></li>
+                <li><button type="button" data-filter="keychains" aria-pressed="false">Брелоки</button></li>
+                <li><button type="button" data-filter="magnets" aria-pressed="false">Магниты</button></li>
+                <li><button type="button" data-filter="plaques" aria-pressed="false">Таблички</button></li>
+                <li><button type="button" data-filter="pendants" aria-pressed="false">Кулоны</button></li>
+                <li><button type="button" data-filter="blanks" aria-pressed="false">Заготовки</button></li>
+                <li><button type="button" data-filter="custom" aria-pressed="false">Под заказ</button></li>
+              </ul>
+            </div>
+
+            <div class="filters__group">
+              <h3>Назначение</h3>
+              <ul class="filter-list" id="purpose-filters">
+                <li><button type="button" data-purpose="all" aria-pressed="true">Любое</button></li>
+                <li><button type="button" data-purpose="home" aria-pressed="false">Для дома</button></li>
+                <li><button type="button" data-purpose="tourists" aria-pressed="false">Для туристов</button></li>
+                <li><button type="button" data-purpose="business" aria-pressed="false">Для бизнеса</button></li>
+                <li><button type="button" data-purpose="creativity" aria-pressed="false">Для творчества</button></li>
+              </ul>
+            </div>
+
+            <div class="filters__group">
+              <label class="check">
+                <input type="checkbox" id="only-custom" />
+                Только изделия под заказ
+              </label>
+            </div>
+          </aside>
+
+          <div class="grid" id="products">
+            <article class="card" data-category="boxes" data-purpose="home">
+              <div class="ph">
+                <svg class="ph__icon" aria-hidden="true"><use href="#i-box" /></svg>
+                <span class="ph__label">Фото: шкатулки</span>
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Шкатулки</h3>
+                <p class="card__desc">Резьба и гравировка по дереву</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="trays" data-purpose="home">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_подносы.png" alt="Резные деревянные подносы: баран и рыба" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Подносы</h3>
+                <p class="card__desc">Резные подносы из массива: баран, рыба и другие формы</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="clocks" data-purpose="home">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_часы.png" alt="Часы на дереве с лазерной гравировкой" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Часы на дереве</h3>
+                <p class="card__desc">Массив дерева, лазерная гравировка и металлические стрелки</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="keychains" data-purpose="tourists">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_брелоки.png" alt="Деревянные брелоки с лазерной гравировкой" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Брелоки</h3>
+                <p class="card__desc">Лазерная гравировка, серии восхождений и сувенирные формы</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="magnets" data-purpose="tourists">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_магниты.png" alt="Деревянные магниты с видами и надписями" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Магниты</h3>
+                <p class="card__desc">Туристические магниты с видами, слоганами и контурами гор</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="plaques" data-purpose="business">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_таблички.png" alt="Деревянная вывеска базы отдыха подножье ПИДАНА" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Таблички</h3>
+                <p class="card__desc">Указатели и вывески для базы, кафе, номеров</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="pendants" data-purpose="tourists">
+              <div class="ph">
+                <svg class="ph__icon" aria-hidden="true"><use href="#i-pendant" /></svg>
+                <span class="ph__label">Фото: кулоны</span>
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Кулоны</h3>
+                <p class="card__desc">Подвески с рельефом на ЧПУ и шнуром</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="blanks" data-purpose="creativity">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_заготовки.png" alt="Деревянные заготовки для творчества: цветы, листья и животные" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Заготовки для творчества</h3>
+                <p class="card__desc">Цветы, листья и животные под роспись и декор</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+              </div>
+            </article>
+
+            <article class="card" data-category="custom" data-purpose="business home tourists creativity">
+              <div class="ph">
+                <svg class="ph__icon" aria-hidden="true"><use href="#i-custom" /></svg>
+                <span class="ph__label">Фото: под заказ</span>
+              </div>
+              <div class="card__body">
+                <span class="tag">Индивидуально</span>
+                <h3 class="card__title">Изделия под заказ</h3>
+                <p class="card__desc">Ваш макет, логотип или надпись на дереве</p>
+                <p class="card__price">Цена по запросу</p>
+                <a class="btn btn--ghost btn--small btn--block" href="#order">Обсудить заказ</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper">
+      <div class="wrap">
+        <h2 class="section__title">Почему нас выбирают</h2>
+        <p class="section__lead">Работаем с деревом полного цикла: от подбора заготовки до упаковки готового изделия.</p>
+        <div class="features">
+          <div class="feature">
+            <svg aria-hidden="true"><use href="#i-tree" /></svg>
+            <div>
+              <h4>Натуральное дерево</h4>
+              <p>Только массив и шпон без пластика и плёнок</p>
+            </div>
+          </div>
+          <div class="feature">
+            <svg aria-hidden="true"><use href="#i-laser" /></svg>
+            <div>
+              <h4>Лазер и ЧПУ</h4>
+              <p>Точная гравировка, резка и объёмный рельеф</p>
+            </div>
+          </div>
+          <div class="feature">
+            <svg aria-hidden="true"><use href="#i-custom" /></svg>
+            <div>
+              <h4>Изделия под заказ</h4>
+              <p>Свой макет, надпись, размер и тираж</p>
+            </div>
+          </div>
+          <div class="feature">
+            <svg aria-hidden="true"><use href="#i-truck" /></svg>
+            <div>
+              <h4>Доставка по России</h4>
+              <p>Отправляем транспортными компаниями и почтой</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap split">
+        <div class="about__text">
+          <h2 class="section__title">О нас</h2>
+          <p>
+            «Дерево Востока» — производство сувениров из дерева. Мы делаем изделия
+            для туристических мест, баз отдыха, магазинов подарков и частных заказчиков.
+          </p>
+          <p>
+            Каждая партия проходит шлифовку и покрытие маслом, поэтому текстура дерева
+            остаётся живой, а гравировка — контрастной и долговечной.
+          </p>
+          <a class="btn btn--ghost" href="#order">Задать вопрос</a>
+        </div>
+        <div class="ph" style="border-radius: var(--radius); border: 1px solid var(--line);">
+          <svg class="ph__icon" aria-hidden="true"><use href="#i-rings" /></svg>
+          <span class="ph__label">Фото: производство</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper" id="delivery">
+      <div class="wrap split">
+        <div>
+          <h2 class="section__title">Доставка и оплата</h2>
+          <p class="section__lead">
+            Отправляем изделия по всей России. Стоимость доставки рассчитываем после
+            подтверждения состава заказа.
+          </p>
+        </div>
+        <ul class="info-list">
+          <li>
+            <svg aria-hidden="true"><use href="#i-truck" /></svg>
+            <div>
+              <strong>СДЭК, Почта России, до терминала</strong>
+              <span>Срок зависит от региона, обычно 3–10 дней</span>
+            </div>
+          </li>
+          <li>
+            <svg aria-hidden="true"><use href="#i-card" /></svg>
+            <div>
+              <strong>Оплата переводом или по счёту</strong>
+              <span>Для организаций работаем по договору и счёту</span>
+            </div>
+          </li>
+          <li>
+            <svg aria-hidden="true"><use href="#i-box" /></svg>
+            <div>
+              <strong>Самовывоз из мастерской</strong>
+              <span>Приморский край, по договорённости</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="b2b">
+      <div class="wrap">
+        <div class="b2b">
+          <div>
+            <h2>Сувениры для базы отдыха, магазина или компании</h2>
+            <p>
+              Производим партии изделий с вашим логотипом и дизайном: магниты, брелоки,
+              таблички, подарочные наборы и корпоративные сувениры.
+            </p>
+            <div class="b2b__actions">
+              <a class="btn btn--primary" href="#order">Рассчитать тираж</a>
+              <a class="btn btn--ghost" href="#catalog">Смотреть продукцию</a>
+            </div>
+          </div>
+          <div class="b2b__stats">
+            <div><b>от 10</b><span>штук в партии</span></div>
+            <div><b>3–7</b><span>дней на тираж</span></div>
+            <div><b>Логотип</b><span>гравировка и резка</span></div>
+            <div><b>Образец</b><span>перед запуском партии</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper" id="order">
+      <div class="wrap">
+        <h2 class="section__title">Оставить заявку</h2>
+        <p class="section__lead">
+          Опишите, что нужно изготовить, — подберём изделие, материал и рассчитаем стоимость.
+        </p>
+        <div class="split">
+          <form class="form" id="order-form" novalidate>
+            <div class="field">
+              <label for="name">Ваше имя</label>
+              <input id="name" name="name" type="text" placeholder="Как к вам обращаться" required />
+            </div>
+            <div class="field">
+              <label for="phone">Телефон или почта</label>
+              <input id="phone" name="phone" type="text" placeholder="+7 900 000-00-00" required />
+            </div>
+            <div class="field">
+              <label for="product">Интересует</label>
+              <select id="product" name="product">
+                <option>Шкатулки</option>
+                <option>Подносы</option>
+                <option>Часы на дереве</option>
+                <option>Брелоки</option>
+                <option>Магниты</option>
+                <option>Таблички</option>
+                <option>Кулоны</option>
+                <option>Заготовки для творчества</option>
+                <option>Изделие под заказ</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="comment">Комментарий</label>
+              <textarea id="comment" name="comment" placeholder="Тираж, надпись, размеры, сроки"></textarea>
+            </div>
+            <button class="btn btn--primary btn--block" type="submit">Отправить заявку</button>
+            <p class="form__note">Нажимая кнопку, вы соглашаетесь на обработку своих данных.</p>
+          </form>
+
+          <div class="messengers" id="contacts">
+            <a class="messenger" href="#">
+              <svg aria-hidden="true"><use href="#i-chat" /></svg>
+              <div><strong>ВКонтакте</strong><span>Сувениры из дерева / Дерево Востока</span></div>
+            </a>
+            <a class="messenger" href="#">
+              <svg aria-hidden="true"><use href="#i-chat" /></svg>
+              <div><strong>WhatsApp</strong><span>Ответим в рабочее время</span></div>
+            </a>
+            <a class="messenger" href="#">
+              <svg aria-hidden="true"><use href="#i-chat" /></svg>
+              <div><strong>Telegram</strong><span>Пришлите макет или идею</span></div>
+            </a>
+            <a class="messenger" href="tel:+70000000000">
+              <svg aria-hidden="true"><use href="#i-phone" /></svg>
+              <div><strong>+7 000 000-00-00</strong><span>Ежедневно с 10:00 до 19:00</span></div>
+            </a>
+            <a class="messenger" href="mailto:info@example.ru">
+              <svg aria-hidden="true"><use href="#i-mail" /></svg>
+              <div><strong>info@example.ru</strong><span>Для заявок и коммерческих запросов</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__cols">
+        <div>
+          <div class="footer__logo">
+            <img class="logo__mark" src="assets/логотип.png" alt="" width="48" height="48" />
+            <span class="logo__text">Дерево<br />Востока</span>
+          </div>
+          <p>Производство сувениров из дерева для туристических мест и центров отдыха.</p>
+        </div>
+        <div>
+          <h4>Каталог</h4>
+          <ul>
+            <li><a href="#catalog">Шкатулки</a></li>
+            <li><a href="#catalog">Подносы и часы</a></li>
+            <li><a href="#catalog">Брелоки и магниты</a></li>
+            <li><a href="#catalog">Таблички и кулоны</a></li>
+            <li><a href="#catalog">Заготовки для творчества</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <ul>
+            <li><a href="tel:+70000000000">+7 000 000-00-00</a></li>
+            <li><a href="mailto:info@example.ru">info@example.ru</a></li>
+            <li><a href="#">Мы во ВКонтакте</a></li>
+            <li><a href="#delivery">Доставка и оплата</a></li>
+            <li><a href="#b2b">Оптовым заказчикам</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Дерево Востока. Сувениры из дерева.</span>
+        <span>Прототип главной страницы. Фото товаров — заглушки.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const categoryFilters = document.getElementById('filters');
+    const purposeFilters = document.getElementById('purpose-filters');
+    const cards = [...document.querySelectorAll('#products .card')];
+    const onlyCustom = document.getElementById('only-custom');
+    let activeCategory = 'all';
+    let activePurpose = 'all';
+
+    function setPressed(list, button) {
+      list.querySelectorAll('button').forEach(item => {
+        item.setAttribute('aria-pressed', String(item === button));
+      });
+    }
+
+    function render() {
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        const purposes = (card.dataset.purpose || '').split(/\s+/).filter(Boolean);
+        const byCategory = activeCategory === 'all' || category === activeCategory;
+        const byPurpose = activePurpose === 'all' || purposes.includes(activePurpose);
+        const byCustom = !onlyCustom.checked || category === 'custom';
+        card.hidden = !(byCategory && byPurpose && byCustom);
+      });
+    }
+
+    categoryFilters.addEventListener('click', event => {
+      const button = event.target.closest('button[data-filter]');
+      if (!button) return;
+      activeCategory = button.dataset.filter;
+      setPressed(categoryFilters, button);
+      render();
+    });
+
+    purposeFilters.addEventListener('click', event => {
+      const button = event.target.closest('button[data-purpose]');
+      if (!button) return;
+      activePurpose = button.dataset.purpose;
+      setPressed(purposeFilters, button);
+      render();
+    });
+
+    onlyCustom.addEventListener('change', render);
+
+    document.getElementById('order-form').addEventListener('submit', event => {
+      event.preventDefault();
+      alert('Прототип: отправка заявки пока не подключена.');
+    });
+  </script>
+</body>
+</html>
