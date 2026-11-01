@@ -202,12 +202,15 @@
       line-height: 0;
       background: transparent;
       overflow: hidden;
+      max-height: 180px;
     }
 
     .hero__img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 180px;
+      object-fit: cover;
+      object-position: center center;
       vertical-align: top;
     }
 
@@ -802,15 +805,13 @@
       .sticky-cta .btn { min-height: 44px; width: 100%; }
 
       .hero {
-        max-height: none;
-        min-height: 0;
+        max-height: 120px;
         background: transparent;
       }
 
       .hero__img {
         width: 100%;
-        height: auto;
-        max-height: 36vw;
+        height: 120px;
         object-fit: cover;
         object-position: center center;
       }
