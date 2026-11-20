@@ -77,8 +77,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      flex: 1 1 auto;
-      min-width: 0;
+      flex: 0 0 auto;
     }
 
     .logo__mark {
@@ -96,12 +95,11 @@
       line-height: 1.1;
       color: var(--wood-dark);
       letter-spacing: 0.2px;
-      min-width: 0;
-      overflow: hidden;
     }
 
     .search {
-      flex: 1 1 320px;
+      flex: 1 1 180px;
+      min-width: 0;
       max-width: 380px;
       display: flex;
       align-items: center;
@@ -993,7 +991,7 @@
                 <li><button type="button" data-filter="boxes" aria-pressed="false">Шкатулки</button></li>
                 <li><button type="button" data-filter="trays" aria-pressed="false">Подносы</button></li>
                 <li><button type="button" data-filter="boards" aria-pressed="false">Разделочные</button></li>
-                <li><a href="часы.html">Часы</a></li>
+                <li><button type="button" data-href="clocks.html">Часы</button></li>
                 <li><button type="button" data-filter="keychains" aria-pressed="false">Брелоки</button></li>
                 <li><button type="button" data-filter="magnets" aria-pressed="false">Магниты</button></li>
                 <li><button type="button" data-filter="plaques" aria-pressed="false">Таблички</button></li>
@@ -1061,7 +1059,7 @@
               </div>
             </article>
 
-            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" data-href="часы.html" tabindex="0" role="link" aria-label="Часы на дереве — смотреть варианты">
+            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" data-href="clocks.html" tabindex="0" role="link" aria-label="Часы на дереве — смотреть варианты">
               <div class="ph ph--photo">
                 <img class="ph__img" src="assets/товар_часы.png" alt="" width="640" height="640" loading="lazy" />
               </div>
@@ -1356,7 +1354,7 @@
           <ul>
             <li><a href="#catalog">Шкатулки</a></li>
             <li><a href="#catalog">Подносы и доски</a></li>
-            <li><a href="часы.html">Часы</a></li>
+            <li><a href="clocks.html">Часы</a></li>
             <li><a href="#catalog">Брелоки и магниты</a></li>
             <li><a href="#catalog">Таблички и кулоны</a></li>
             <li><a href="заготовки.html">Заготовки</a></li>
@@ -1474,6 +1472,11 @@
     });
 
     categoryFilters.addEventListener('click', event => {
+      const nav = event.target.closest('button[data-href]');
+      if (nav) {
+        window.location.href = nav.dataset.href;
+        return;
+      }
       const button = event.target.closest('button[data-filter]');
       if (!button) return;
       activeCategory = button.dataset.filter;
