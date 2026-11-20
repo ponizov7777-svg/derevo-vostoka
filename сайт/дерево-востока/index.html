@@ -160,6 +160,7 @@
     .btn--block { width: 100%; }
     .btn:focus-visible,
     .filter-list button:focus-visible,
+    .filter-list a:focus-visible,
     .burger:focus-visible,
     .nav a:focus-visible,
     .messenger:focus-visible,
@@ -202,15 +203,13 @@
       line-height: 0;
       background: transparent;
       overflow: hidden;
-      max-height: 180px;
     }
 
     .hero__img {
       display: block;
       width: 100%;
-      height: 180px;
-      object-fit: cover;
-      object-position: center center;
+      height: auto;
+      /* натуральные пропорции: без cover-зума текста и без боковых полей */
       vertical-align: top;
     }
 
@@ -280,7 +279,9 @@
       gap: 2px;
     }
 
-    .filter-list button {
+    .filter-list button,
+    .filter-list a {
+      display: block;
       width: 100%;
       text-align: left;
       padding: 7px 10px;
@@ -290,9 +291,12 @@
       cursor: pointer;
       color: var(--ink-soft);
       font-size: 15px;
+      text-decoration: none;
+      box-sizing: border-box;
     }
 
-    .filter-list button:hover { background: var(--cream-2); }
+    .filter-list button:hover,
+    .filter-list a:hover { background: var(--cream-2); }
 
     .filter-list button[aria-pressed="true"] {
       background: var(--cream-2);
@@ -755,7 +759,8 @@
 
       .filter-list li { flex: none; max-width: 100%; }
 
-      .filter-list button {
+      .filter-list button,
+      .filter-list a {
         width: auto;
         max-width: 100%;
         white-space: nowrap;
@@ -804,17 +809,7 @@
 
       .sticky-cta .btn { min-height: 44px; width: 100%; }
 
-      .hero {
-        max-height: 120px;
-        background: transparent;
-      }
-
-      .hero__img {
-        width: 100%;
-        height: 120px;
-        object-fit: cover;
-        object-position: center center;
-      }
+      /* hero на мобиле — как на десктопе: height:auto, без letterbox-полос */
 
       .split,
       .b2b,
@@ -971,7 +966,7 @@
   <main id="top">
     <section class="hero" aria-label="Баннер каталога">
       <h1 class="visually-hidden">Каталог сувениров из дерева</h1>
-      <p class="visually-hidden">Шкатулки, часы, подносы, брелоки и заготовки</p>
+      <p class="visually-hidden">Шкатулки, часы, подносы, разделочные доски, брелоки и заготовки</p>
       <img
         class="hero__img"
         src="assets/баннер_каталог_v3.png"
@@ -997,7 +992,8 @@
                 <li><button type="button" data-filter="all" aria-pressed="true">Все изделия</button></li>
                 <li><button type="button" data-filter="boxes" aria-pressed="false">Шкатулки</button></li>
                 <li><button type="button" data-filter="trays" aria-pressed="false">Подносы</button></li>
-                <li><button type="button" data-filter="clocks" aria-pressed="false">Часы</button></li>
+                <li><button type="button" data-filter="boards" aria-pressed="false">Разделочные</button></li>
+                <li><a href="часы.html">Часы</a></li>
                 <li><button type="button" data-filter="keychains" aria-pressed="false">Брелоки</button></li>
                 <li><button type="button" data-filter="magnets" aria-pressed="false">Магниты</button></li>
                 <li><button type="button" data-filter="plaques" aria-pressed="false">Таблички</button></li>
@@ -1053,15 +1049,27 @@
               </div>
             </article>
 
-            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" tabindex="0" role="link" aria-label="Часы на дереве — оставить заявку">
+            <article class="card" data-category="boards" data-purpose="home" data-product="Разделочные доски" tabindex="0" role="link" aria-label="Разделочные доски — оставить заявку">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_разделочные.png" alt="" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Разделочные доски</h3>
+                <p class="card__desc">Резные доски из массива с рельефом: рыбы, орнамент, подвес</p>
+                <p class="card__price">Цена по запросу</p>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
+              </div>
+            </article>
+
+            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" data-href="часы.html" tabindex="0" role="link" aria-label="Часы на дереве — смотреть варианты">
               <div class="ph ph--photo">
                 <img class="ph__img" src="assets/товар_часы.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Часы на дереве</h3>
-                <p class="card__desc">Массив дерева, лазерная гравировка и металлические стрелки</p>
-                <p class="card__price">Цена по запросу</p>
-                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
+                <p class="card__desc">Классика и модели с LED-подсветкой: размеры, материал, срок</p>
+                <p class="card__price">Варианты и цены внутри</p>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Смотреть варианты</span>
               </div>
             </article>
 
@@ -1114,27 +1122,26 @@
               </div>
             </article>
 
-            <article class="card" data-category="blanks" data-purpose="creativity" data-product="Заготовки для творчества" tabindex="0" role="link" aria-label="Заготовки для творчества — оставить заявку">
+            <article class="card" data-category="blanks" data-purpose="creativity" data-product="Заготовки для творчества" data-href="заготовки.html" tabindex="0" role="link" aria-label="Заготовки для творчества — смотреть варианты">
               <div class="ph ph--photo">
                 <img class="ph__img" src="assets/товар_заготовки.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Заготовки для творчества</h3>
-                <p class="card__desc">Цветы, листья и животные под роспись и декор</p>
-                <p class="card__price">Цена по запросу</p>
-                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
+                <p class="card__desc">Животные, буквы, подвесы, силуэты и формы под роспись</p>
+                <p class="card__price">Варианты и размеры внутри</p>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Смотреть варианты</span>
               </div>
             </article>
 
             <article class="card" data-category="custom" data-purpose="business home tourists creativity" data-product="Изделие под заказ" tabindex="0" role="link" aria-label="Изделия под заказ — обсудить заявку">
-              <div class="ph">
-                <svg class="ph__icon" aria-hidden="true"><use href="#i-custom" /></svg>
-                <span class="ph__label">Фото: под заказ</span>
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_под_заказ_панно.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <span class="tag">Индивидуально</span>
                 <h3 class="card__title">Изделия под заказ</h3>
-                <p class="card__desc">Ваш макет, логотип или надпись на дереве</p>
+                <p class="card__desc">Панно, макеты с подсветкой, логотип или надпись на дереве</p>
                 <p class="card__price">Цена по запросу</p>
                 <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Обсудить заказ</span>
               </div>
@@ -1282,12 +1289,20 @@
               <select id="product" name="product">
                 <option value="Шкатулки">Шкатулки</option>
                 <option value="Подносы">Подносы</option>
+                <option value="Разделочные доски">Разделочные доски</option>
                 <option value="Часы на дереве">Часы на дереве</option>
+                <option value="Часы с подсветкой">Часы с подсветкой</option>
                 <option value="Брелоки">Брелоки</option>
                 <option value="Магниты">Магниты</option>
                 <option value="Таблички">Таблички</option>
                 <option value="Кулоны">Кулоны</option>
                 <option value="Заготовки для творчества">Заготовки для творчества</option>
+                <option value="Именные шары-подвесы">Именные шары-подвесы</option>
+                <option value="Буквы и цифры">Буквы и цифры</option>
+                <option value="Заготовки для часов">Заготовки для часов</option>
+                <option value="Значки из фанеры">Значки из фанеры</option>
+                <option value="Силуэты из фанеры">Силуэты из фанеры</option>
+                <option value="Трафареты для творчества">Трафареты для творчества</option>
                 <option value="Изделие под заказ">Изделие под заказ</option>
               </select>
             </div>
@@ -1340,10 +1355,11 @@
           <h4>Каталог</h4>
           <ul>
             <li><a href="#catalog">Шкатулки</a></li>
-            <li><a href="#catalog">Подносы и часы</a></li>
+            <li><a href="#catalog">Подносы и доски</a></li>
+            <li><a href="часы.html">Часы</a></li>
             <li><a href="#catalog">Брелоки и магниты</a></li>
             <li><a href="#catalog">Таблички и кулоны</a></li>
-            <li><a href="#catalog">Заготовки для творчества</a></li>
+            <li><a href="заготовки.html">Заготовки</a></li>
           </ul>
         </div>
         <div>
@@ -1432,6 +1448,18 @@
       window.setTimeout(() => document.getElementById('name')?.focus(), 350);
     }
 
+    function openCard(card) {
+      if (card.dataset.href) {
+        window.location.href = card.dataset.href;
+        return;
+      }
+      goOrder(card.dataset.product);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const presetProduct = params.get('product');
+    if (presetProduct) goOrder(presetProduct);
+
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('is-open')) closeNav();
       else openNav();
@@ -1466,7 +1494,7 @@
     document.getElementById('products').addEventListener('click', event => {
       const card = event.target.closest('.card[data-product]');
       if (!card) return;
-      goOrder(card.dataset.product);
+      openCard(card);
     });
 
     document.getElementById('products').addEventListener('keydown', event => {
@@ -1474,7 +1502,7 @@
       const card = event.target.closest('.card[data-product]');
       if (!card) return;
       event.preventDefault();
-      goOrder(card.dataset.product);
+      openCard(card);
     });
 
     document.getElementById('order-form').addEventListener('submit', event => {

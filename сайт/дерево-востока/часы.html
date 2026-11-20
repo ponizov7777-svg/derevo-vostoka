@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Часы на дереве — Дерево Востока</title>
+  <meta name="description" content="Варианты деревянных часов: классические с гравировкой и многослойные с LED-подсветкой. Размеры, материал, срок изготовления и заказ." />
+  <style>
+    :root {
+      --cream: #faf6ee;
+      --cream-2: #f3ebdd;
+      --paper: #fffdf8;
+      --wood: #8a5a2b;
+      --wood-dark: #5b3a1b;
+      --wood-light: #c69a68;
+      --ink: #35251a;
+      --ink-soft: #6d5949;
+      --green: #2f5233;
+      --green-dark: #24401f;
+      --line: #e2d5bf;
+      --radius: 12px;
+      --shadow: 0 2px 10px rgba(90, 62, 33, 0.08);
+      --wrap: 1240px;
+      --font: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.5;
+      overflow-x: clip;
+      max-width: 100%;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    .wrap {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .header__inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 24px;
+      max-width: var(--wrap);
+      margin: 0 auto;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; min-width: 0; margin-right: auto; }
+    .logo__mark {
+      width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+      box-shadow: 0 1px 4px rgba(60, 35, 15, .25); flex: none;
+    }
+    .logo__text {
+      font-weight: 700; font-size: 19px; line-height: 1.1; color: var(--wood-dark);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 10px 16px; border-radius: 8px;
+      border: 1px solid transparent; font-weight: 600; cursor: pointer;
+    }
+    .btn--primary { background: var(--green); color: #fff; }
+    .btn--primary:hover { background: var(--green-dark); }
+    .btn--ghost {
+      background: var(--paper); border-color: var(--line); color: var(--wood-dark);
+    }
+    .btn--ghost:hover { border-color: var(--wood-light); }
+    .btn--block { width: 100%; }
+
+    .crumbs {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 18px 0 8px; color: var(--ink-soft); font-size: 14px;
+    }
+    .crumbs a { color: var(--wood); }
+    .crumbs a:hover { text-decoration: underline; }
+
+    .page-head { padding: 8px 0 28px; }
+    .page-head h1 {
+      margin: 0 0 10px; font-size: clamp(28px, 4vw, 40px); color: var(--wood-dark); line-height: 1.15;
+    }
+    .page-head p { margin: 0; max-width: 62ch; color: var(--ink-soft); font-size: 17px; }
+
+    .variants { display: grid; gap: 28px; padding-bottom: 48px; }
+
+    .variant {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 28px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .variant:nth-child(even) { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); }
+    .variant:nth-child(even) .variant__gallery { order: 2; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .gallery--one { grid-template-columns: 1fr; }
+    .gallery figure {
+      margin: 0;
+      background: var(--cream-2);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .gallery img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+    .gallery figcaption {
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .variant__body { display: grid; gap: 14px; align-content: start; }
+    .tag {
+      display: inline-flex; width: fit-content;
+      padding: 4px 10px; border-radius: 999px;
+      background: var(--cream-2); color: var(--green); font-size: 13px; font-weight: 600;
+    }
+    .variant h2 {
+      margin: 0; font-size: clamp(22px, 3vw, 28px); color: var(--wood-dark); line-height: 1.2;
+    }
+    .variant__lead { margin: 0; color: var(--ink-soft); }
+
+    .specs {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    .specs th, .specs td {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    .specs th {
+      width: 42%;
+      color: var(--ink-soft);
+      font-weight: 500;
+      padding-right: 12px;
+    }
+    .specs td { color: var(--ink); font-weight: 600; }
+    .specs tr:last-child th,
+    .specs tr:last-child td { border-bottom: 0; }
+
+    .variant__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+
+    .note {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .footer {
+      background: #2a1c12;
+      color: #c9b79e;
+      padding: 28px 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .footer a:hover { color: #fff; }
+    .footer__row {
+      display: flex; flex-wrap: wrap; gap: 12px 24px;
+      justify-content: space-between; align-items: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .variant,
+      .variant:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+      .variant:nth-child(even) .variant__gallery { order: 0; }
+    }
+
+    @media (max-width: 560px) {
+      .header__inner { padding: 12px 16px; }
+      .wrap { padding: 0 16px; }
+      .logo__text { font-size: 16px; }
+      .gallery { grid-template-columns: 1fr; }
+      .variant { padding: 14px; gap: 16px; }
+      .variant__actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <a class="logo" href="index.html">
+        <img class="logo__mark" src="assets/логотип.png" alt="" width="48" height="48" />
+        <span class="logo__text">Дерево<br />Востока</span>
+      </a>
+      <a class="btn btn--ghost" href="index.html#catalog">К каталогу</a>
+      <a class="btn btn--primary" href="index.html#order">Заказать</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="crumbs" aria-label="Навигация">
+      <a href="index.html">Главная</a>
+      <span aria-hidden="true">/</span>
+      <a href="index.html#catalog">Каталог</a>
+      <span aria-hidden="true">/</span>
+      <span>Часы</span>
+    </nav>
+
+    <header class="page-head">
+      <h1>Часы на дереве</h1>
+      <p>Несколько вариантов исполнения: классические часы с гравировкой и многослойные сюжетные модели с подсветкой. Размеры, цену и надпись можно согласовать под заказ.</p>
+    </header>
+
+    <section class="variants" aria-label="Варианты часов">
+      <article class="variant" id="klassicheskie">
+        <div class="variant__gallery">
+          <div class="gallery gallery--one">
+            <figure>
+              <img src="assets/товар_часы.png" alt="Классические деревянные часы с лазерной гравировкой" width="640" height="640" />
+              <figcaption>Классический вариант</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="variant__body">
+          <span class="tag">Базовая модель</span>
+          <h2>Классические часы</h2>
+          <p class="variant__lead">Массив дерева, лазерная гравировка и металлические стрелки. Подходят для дома, базы отдыха и корпоративных подарков.</p>
+          <table class="specs">
+            <tbody>
+              <tr><th>Размер</th><td>Ø 30–40 см (уточняется)</td></tr>
+              <tr><th>Материал</th><td>Массив дерева, металлический механизм</td></tr>
+              <tr><th>Подсветка</th><td>Нет</td></tr>
+              <tr><th>Срок изготовления</th><td>7–14 дней</td></tr>
+              <tr><th>Стоимость</th><td>По запросу</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Параметры можно изменить под ваш макет и тираж.</p>
+          <div class="variant__actions">
+            <a class="btn btn--primary" href="index.html?product=Часы%20на%20дереве#order">Заказать этот вариант</a>
+            <a class="btn btn--ghost" href="index.html#catalog">Другие изделия</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="variant" id="s-podsvetkoj">
+        <div class="variant__gallery">
+          <div class="gallery">
+            <figure>
+              <img src="assets/товар_часы_хирурги_день.png" alt="Многослойные часы с медицинским сюжетом без подсветки" width="640" height="640" loading="lazy" />
+              <figcaption>Днём / без акцента света</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/товар_часы_хирурги_led.png" alt="Те же часы с LED-подсветкой и эффектом звёздного неба" width="640" height="640" loading="lazy" />
+              <figcaption>С LED-подсветкой</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="variant__body">
+          <span class="tag">С подсветкой</span>
+          <h2>Часы с LED-подсветкой</h2>
+          <p class="variant__lead">Многослойная лазерная резка, сюжетная композиция и подсветка. На фото — вариант для врачей; имя, девиз и тему можно заменить.</p>
+          <table class="specs">
+            <tbody>
+              <tr><th>Размер</th><td>Ø около 30 см (уточняется)</td></tr>
+              <tr><th>Материал</th><td>Фанера / многослойная лазерная резка</td></tr>
+              <tr><th>Подсветка</th><td>LED, эффект «звёздного неба»</td></tr>
+              <tr><th>Персонализация</th><td>Имя, должность, девиз, свой сюжет</td></tr>
+              <tr><th>Срок изготовления</th><td>10–21 день</td></tr>
+              <tr><th>Стоимость</th><td>По запросу</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Цифры размера, цены и срока — рабочие ориентиры, финально согласуем в заявке.</p>
+          <div class="variant__actions">
+            <a class="btn btn--primary" href="index.html?product=Часы%20с%20подсветкой#order">Заказать этот вариант</a>
+            <a class="btn btn--ghost" href="index.html#catalog">К каталогу</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__row">
+      <span>© 2026 Дерево Востока</span>
+      <a href="index.html#contacts">Контакты</a>
+      <a href="index.html#order">Оставить заявку</a>
+    </div>
+  </footer>
+</body>
+</html>
